@@ -123,7 +123,7 @@ export class FetchDataService {
     }
 
     getFiveDayForecast(id: number) {
-       return this.http.get('http://api.openweathermap.org/data/2.5/forecast/daily?id=' + id + '&cnt=5&units=metric&APPID=' + this.apiKey).map(res => res.json());
+       return this.http.get('https://api.openweathermap.org/data/2.5/forecast/daily?id=' + id + '&cnt=5&units=metric&APPID=' + this.apiKey).map(res => res.json());
     }
 
     updateCityDetails(id: number) {
