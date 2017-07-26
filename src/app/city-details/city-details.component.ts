@@ -29,12 +29,10 @@ export class CityDetailsComponent implements OnInit{
           let storedCityInfo = localStorage.getItem(this.id + '');
 
           if (storedCityInfo) {
-            console.log("Cashe");
             let storedCityArray = JSON.parse(storedCityInfo);
             this.days = storedCityArray.list;
             this.cityName = storedCityArray.city.name;
           } else {
-            console.log("GET");
             localStorage.setItem(this.id + '', JSON.stringify(this.cityDetails));
             this.days = this.cityDetails.list;
             this.cityName = this.cityDetails.city.name;

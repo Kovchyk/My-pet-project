@@ -84,10 +84,10 @@ a:hover {text-decoration: underline;}
 .navigation {
   overflow: hidden;
 }
-.logo {
+.navigation__logo {
   float: left;
 }
-.logo a, #select-city a {
+.navigation__link, #select-city a {
   display: block;
   color: #fff;
   text-decoration: none;

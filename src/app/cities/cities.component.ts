@@ -42,7 +42,6 @@ export class CitiesComponent implements OnInit {
     
     this.lists.map((val: any) => {
       this.options.push({value: val.id, label: val.name});
-      console.log(this.options);
     });
     
   }
