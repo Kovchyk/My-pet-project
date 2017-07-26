@@ -25,7 +25,7 @@
                     <h2>{{city.name}}</h2>
                     <div class="weather">
                         <div class="pic">
-                            <img src="images/{{city.weather[0].icon}}.png" alt="{{city.weather[0].main}}" width="48" height="48"/>
+                            <img src="http://openweathermap.org/img/w/{{city.weather[0].icon}}.png" alt="{{city.weather[0].main}}" width="50" height="50"/>
                         </div>
                         <div class="temp">
                             <span *ngIf="city.main.temp > 0">+{{city.main.temp | roundNum}}</span>
