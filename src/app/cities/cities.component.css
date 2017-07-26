@@ -52,7 +52,6 @@
 	background: url('/assets/images/delete.png') no-repeat;
 	width: 32px;
 	height: 32px;
-	display: block;
 	cursor: pointer;
 	display: none;
 	overflow: hidden;
