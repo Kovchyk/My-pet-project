@@ -1,0 +1,44 @@
+<section id="content">
+    <div class="tool-bar">
+        <div class="select-city">
+           <ng-select class="select-city__select"
+                [multiple]="false"
+                [options]="options"
+                [(ngModel)]="mySelectValue"
+                [placeholder]="myPlaceholderText">
+            </ng-select>
+            <button type="button" class="button select-city__add-city" (click)="goToDetails()">Add city</button>
+        </div>
+        <div class="city-update" [hidden]="cities == null || !cities.length">
+            <h2 class="city-update__date">{{date | date:'shortTime'}}</h2>
+            <button class="button city-update__refresh" (click)="refreshAllbyButton()">Refresh</button>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <h2 *ngIf="cities == null || !cities.length">Choice a city from the list and add a city.</h2>
+    <div class="weather-content">
+        <div class="city-info-wrapper" *ngFor="let city of cities">
+            <span class="delete" (click)="deleteItem(city.id)">Delete</span>
+            <a routerLink="city/{{city.id}}">
+                <div class="city-info">
+                    <span>{{city.dt| datePipe}}</span>
+                    <h2>{{city.name}}</h2>
+                    <div class="weather">
+                        <div class="pic">
+                            <img src="images/{{city.weather[0].icon}}.png" alt="{{city.weather[0].main}}" width="48" height="48"/>
+                        </div>
+                        <div class="temp">
+                            <span *ngIf="city.main.temp > 0">+{{city.main.temp | roundNum}}</span>
+                            <span *ngIf="city.main.temp < 0">-{{city.main.temp | roundNum}}</span>
+                            <span *ngIf="city.main.temp == 0">{{city.main.temp | roundNum}}</span>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>{{city.weather[0].main}}</p>
+                        <span>{{city.weather[0].description | firstCapitalLetter}}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>

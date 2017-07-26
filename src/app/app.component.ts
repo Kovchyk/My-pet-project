@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CitiesComponent } from './cities/cities.component';
+import { FetchDataService } from './services/fetchData.service';
+import { OnInit } from '@angular/core';
+import { FormsModule }   from '@angular/forms';
+import { CityDetailsService } from "./services/city-details.service";
+import { CitiesListService } from "./services/cities-list.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  moduleId: module.id,
+  selector: 'my-app',
+  templateUrl: 'app.component.html',
+  providers: [ FetchDataService, CitiesListService ]
 })
-export class AppComponent {
-  title = 'app';
+export class AppComponent implements OnInit {
+ 
+  
+  constructor(private fetchDataService: FetchDataService, private citiesListService: CitiesListService) {}
+
+  ngOnInit() {
+
+  }
+
 }
