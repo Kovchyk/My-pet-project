@@ -50,7 +50,6 @@ export class CitiesComponent implements OnInit {
     
     if (this.mySelectValue) {
       this.router.navigate(['/add', this.mySelectValue]);
-      console.log(this.mySelectValue);
     }
 
   }
