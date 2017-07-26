@@ -15,8 +15,8 @@
         </div>
         <div class="clear"></div>
     </div>
-    <h2 *ngIf="cities == null || !cities.length">Choice a city from the list and add a city.</h2>
-    <div class="weather-content">
+    <h2 class="instruction" *ngIf="cities == null || !cities.length">Choice a city from the list and add a city.</h2>
+    <div class="weather-content" *ngIf="cities.length">
         <div class="city-info" *ngFor="let city of cities">
             <span class="city-info__delete" (click)="deleteItem(city.id)">Delete</span>
             <a class="city-info__to-weater-detais-link" routerLink="city/{{city.id}}">

@@ -10,6 +10,11 @@
 .city-update__refresh {
 	float: left;
 }
+.instruction {
+	font-size: 32px;
+	line-height: 40px;
+	text-align: center;
+}
 .city-info {
 	position: relative;
 	width: 25%;
@@ -28,11 +33,7 @@
 	width: 32px;
 	height: 32px;
 	cursor: pointer;
-	display: none;
 	overflow: hidden;
-}
-.city-info:hover .city-info__delete {
-	display: block;
 }
 .city-info__to-weater-detais-link {
 	color: #fff;
