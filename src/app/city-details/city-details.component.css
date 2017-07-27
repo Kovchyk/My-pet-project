@@ -47,11 +47,12 @@
 .daily-info__day-part-temperature {
 	font-size: 65px;
 	line-height: 65px;
-	display: block;
 	padding: 0 6px 0 0;
 	text-shadow: 0px 1px 10px #000;
 	float: right;
-	padding: 0 6px 0 0;
+}
+.daily-info__icon-wrapper {
+	width: 100%;
 }
 .daily-info__icon {
 	margin: 0 auto;
@@ -115,13 +116,9 @@
 	}
 	.daily-info__day-part-temperature {
 		float: none;
-		display: inline;
+		display: block;
 		font-size: 85px;
 		line-height: 85px;
-		padding: 0;
-		display: block;
-		padding: 0 6px 0 0;
-		text-shadow: 0px 1px 10px #000;
 	}
 }
 @media screen and (max-width: 768px) {
