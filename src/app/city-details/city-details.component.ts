@@ -26,17 +26,17 @@ export class CityDetailsComponent implements OnInit{
           this.cityDetails = data['cityDetails'];
           this.id = this.cityDetails.city.id;
           this.addCity(this.id);
-          let storedCityInfo = localStorage.getItem(this.id + '');
+          let storedCityInfo = this.fetchDataService.getDataFromLocalStorage(this.id + '');
 
           if (storedCityInfo) {
-            let storedCityArray = JSON.parse(storedCityInfo);
-            this.days = storedCityArray.list;
-            this.cityName = storedCityArray.city.name;
+            this.days = storedCityInfo.list;
+            this.cityName = storedCityInfo.city.name;
           } else {
-            localStorage.setItem(this.id + '', JSON.stringify(this.cityDetails));
+            this.fetchDataService.saveDataToLocalStorage(this.id + '', this.cityDetails);
             this.days = this.cityDetails.list;
             this.cityName = this.cityDetails.city.name;
           }
+          
       });
 
     }

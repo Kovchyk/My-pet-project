@@ -7,7 +7,7 @@ import { FormsModule }   from '@angular/forms';
 import { SelectModule } from 'angular2-select';
 
 import { AppComponent }  from './app.component';
-import { CitiesComponent } from './cities/cities.component';
+import { CityComponent } from './cities/city.component';
 import { CityDetailsComponent } from './city-details/city-details.component';
 
 import { FirstCapitalLetterPipe } from "./pipes/firstCapitalLetter.pipe";
@@ -21,7 +21,7 @@ import { FetchDataService } from './services/fetchData.service';
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, routing, FormsModule, SelectModule ],
-  declarations: [ AppComponent, CitiesComponent, CityDetailsComponent, FirstCapitalLetterPipe, RoundNumPipe, DatePipe ],
+  declarations: [ AppComponent, CityComponent, CityDetailsComponent, FirstCapitalLetterPipe, RoundNumPipe, DatePipe ],
   bootstrap:    [ AppComponent ],
   providers:    [ FetchDataService, CityDeteilsResolver, CityListResolver ]
 })

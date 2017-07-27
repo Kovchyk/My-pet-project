@@ -12,48 +12,48 @@ import { Observable } from 'rxjs/Rx';
 
 export class FetchDataService {
 
-    public cities = new BehaviorSubject([]);
+    public citiesBehaviorSubject = new BehaviorSubject([]);
     private date = new Subject();
     private apiKey: string = 'e4a01aeef0993c451f22d98569c8e243';
     private subscription: Subscription;
 
     constructor(private http: Http) {
-        this.refreshItems();
+        this.updateDataByTimer();
     }
     
-    getDataFromServer(id: number) {
+    getCurrentWeatherByCityId(id: number): Observable<any> {
          return this.http.get('http://api.openweathermap.org/data/2.5/weather?id=' + id + '&units=metric&APPID=' + this.apiKey)
                              .map(res => res.json());
     }
 
-    getCitiesFromLocalStorage() {
-        return JSON.parse(localStorage.getItem("storedCities"));
+    getDataFromLocalStorage(storageName: string) {
+        return JSON.parse(localStorage.getItem(storageName));
     }
     
-    saveCitiesInLocalStorage(array: any) {
-        localStorage.setItem("storedCities", JSON.stringify(array));
+    saveDataToLocalStorage(storageName, array: any) {
+        localStorage.setItem(storageName, JSON.stringify(array));
     }
 
     addCity(id: number) {
         if (id) {
-            let citiesArray = this.getCitiesFromLocalStorage();
+            let citiesArray = this.getDataFromLocalStorage('storedCities');
             // if localStorage is empty declare an array
             if (citiesArray === null) {
                 citiesArray = [];
             }
 
             if (!citiesArray.some((val: any) => { return val.id == id;} )) {
-                this.getDataFromServer(id).subscribe(data => {
+                this.getCurrentWeatherByCityId(id).subscribe(data => {
                     citiesArray.unshift(data);
-                    this.saveCitiesInLocalStorage(citiesArray);
-                    this.cities.next(JSON.parse(localStorage.getItem("storedCities")));
+                    this.saveDataToLocalStorage('storedCities', citiesArray);
+                    this.citiesBehaviorSubject.next(this.getDataFromLocalStorage('storedCities'));
                 });
             }
         }
     }
 
-    getCities() {
-        return this.cities;
+    getCitiesArray() {
+        return this.citiesBehaviorSubject;
     }
 
     getDate() {
@@ -61,17 +61,17 @@ export class FetchDataService {
     }
 
     deleteItem(id:number) {
-        let array = this.getCitiesFromLocalStorage();
+        let citiesArray = this.getDataFromLocalStorage('storedCities');
         // if localStorage is empty declare an array
-        if (array === null) {
-            array = [];
+        if (citiesArray === null) {
+            citiesArray = [];
         }
 
-        array.forEach((element: any, index: number) => {
+        citiesArray.forEach((element: any, index: number) => {
             if (element.id == id) {
-                array.splice(index, 1);
-                this.saveCitiesInLocalStorage(array);
-                this.cities.next(JSON.parse(localStorage.getItem("storedCities")));
+                citiesArray.splice(index, 1);
+                this.saveDataToLocalStorage('storedCities', citiesArray);
+                this.citiesBehaviorSubject.next(this.getDataFromLocalStorage('storedCities'));
                 //delete detail info from Local Storage
                 localStorage.removeItem(id + '');
             } 
@@ -79,8 +79,8 @@ export class FetchDataService {
 
     }
 
-    refreshItems() {
-
+    updateDataByTimer() {
+        
         let timer = Observable.timer(0, 600000);
         // if timer has already run than stop it before running it again
         if (this.subscription) {
@@ -89,47 +89,47 @@ export class FetchDataService {
 
         this.subscription = timer.subscribe(x => {
             this.updateLastRefreshingDate();
-            this.getNewDataFromServer();
+            this.updateAllData();
         });
 
     }
 
-    getNewDataFromServer() {
-        let array = this.getCitiesFromLocalStorage();
+    updateAllData() {
+        let citiesArray = this.getDataFromLocalStorage('storedCities');
         // if localStorage is empty declare an array
-        if (array === null) {
-            array = [];
+        if (citiesArray === null) {
+            citiesArray = [];
         }
 
-        let ids: string = "";
+        let ids: string = '';
 
-        if (array.length) {
+        if (citiesArray.length) {
             // Get ids as a string to pass it to a request
-            let ids = array.map((el: any) => el.id).join(',');
+            let ids = citiesArray.map((el: any) => el.id).join(',');
 
-            array.forEach( (element: any) => {
+            citiesArray.forEach( (element: any) => {
                 this.updateCityDetails(element.id);
             });
 
             this.updateLastRefreshingDate();
-            let groupAnswer =  this.http.get('http://api.openweathermap.org/data/2.5/group?id=' + ids + '&units=metric&APPID=' + this.apiKey).map(res => res.json());
+            let groupResponce =  this.http.get('http://api.openweathermap.org/data/2.5/group?id=' + ids + '&units=metric&APPID=' + this.apiKey).map(res => res.json());
             
-            groupAnswer.subscribe(array => {
-                this.saveCitiesInLocalStorage(array.list);
-                this.cities.next(JSON.parse(localStorage.getItem("storedCities")));
+            groupResponce.subscribe(weatherArray => {
+                this.saveDataToLocalStorage('storedCities', weatherArray.list);
+                this.citiesBehaviorSubject.next(this.getDataFromLocalStorage('storedCities'));
             });
         }
     }
 
-    getFiveDayForecast(id: number) {
+    getFiveDayForecastByCityId(id: number) {
        return this.http.get('http://api.openweathermap.org/data/2.5/forecast/daily?id=' + id + '&cnt=5&units=metric&APPID=' + this.apiKey).map(res => res.json());
     }
 
     updateCityDetails(id: number) {
 
-        let cityDetails = this.getFiveDayForecast(id);
-        cityDetails.subscribe(details => {
-            localStorage.setItem(details.city.id, JSON.stringify(details));
+        let cityDetails = this.getFiveDayForecastByCityId(id);
+        cityDetails.subscribe(weatherDetails => {
+            this.saveDataToLocalStorage(weatherDetails.city.id, weatherDetails);
         });
 
     }

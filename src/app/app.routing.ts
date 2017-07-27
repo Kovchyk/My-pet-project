@@ -2,14 +2,14 @@ import {ModuleWithProviders} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
 import { CityDetailsComponent } from './city-details/city-details.component';
-import { CitiesComponent } from "./cities/cities.component";
+import { CityComponent } from "./cities/city.component";
 import { CityDeteilsResolver } from "./services/city-details-resolver";
 import { CityListResolver } from "./services/city-list-resolver";
 
 const AppRoutes: Routes = [
     {
         path: '',
-        component: CitiesComponent,
+        component: CityComponent,
         
     },
     {

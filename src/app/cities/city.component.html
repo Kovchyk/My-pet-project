@@ -9,15 +9,15 @@
             </ng-select>
             <button type="button" class="button select-city__add-city" (click)="goToDetails()">Add city</button>
         </div>
-        <div class="city-update" [hidden]="cities == null || !cities.length">
+        <div class="city-update" [hidden]="citiesArray == null || !citiesArray.length">
             <h2 class="city-update__date">{{date | date:'shortTime'}}</h2>
-            <button class="button city-update__refresh" (click)="refreshAllbyButton()">Refresh</button>
+            <button class="button city-update__refresh" (click)="updateAllbyButtonClick()">Refresh</button>
         </div>
         <div class="clear"></div>
     </div>
-    <h2 class="instruction" *ngIf="cities == null || !cities.length">Choice a city from the list and add a city.</h2>
-    <div class="weather-content" *ngIf="cities.length">
-        <div class="city-info" *ngFor="let city of cities">
+    <h2 class="instruction" *ngIf="citiesArray == null || !citiesArray.length">Choice a city from the list and add a city.</h2>
+    <div class="weather-content" *ngIf="citiesArray.length">
+        <div class="city-info" *ngFor="let city of citiesArray">
             <span class="city-info__delete" (click)="deleteItem(city.id)">Delete</span>
             <a class="city-info__to-weater-detais-link" routerLink="city/{{city.id}}">
                 <div class="city-info__city-details">

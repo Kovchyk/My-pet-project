@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CitiesComponent } from './cities/cities.component';
+import { CityComponent } from './cities/city.component';
 import { FetchDataService } from './services/fetchData.service';
 import { OnInit } from '@angular/core';
 import { FormsModule }   from '@angular/forms';

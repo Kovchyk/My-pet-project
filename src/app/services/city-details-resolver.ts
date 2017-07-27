@@ -9,6 +9,6 @@ export class CityDeteilsResolver implements Resolve<any> {
   constructor(private fetchDataService: FetchDataService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    return this.fetchDataService.getFiveDayForecast(route.params['id']);
+    return this.fetchDataService.getFiveDayForecastByCityId(route.params['id']);
   }
 }

@@ -9,17 +9,18 @@ import { CitiesListService } from "../services/cities-list.service";
 
 @Component({
   moduleId: module.id,
-  selector: 'cities',
-  templateUrl: 'cities.component.html',
-  styleUrls: ['cities.component.css']
+  selector: 'city',
+  templateUrl: 'city.component.html',
+  styleUrls: ['city.component.css']
 })
 
-export class CitiesComponent implements OnInit { 
+export class CityComponent implements OnInit { 
   private citiesList: any;
-  public cities: any;
+  public citiesArray: any;
   private id: number;
   public date: any;
   private lists: any;
+  //properties for ng-select
   options: Array<any> = [];
   myPlaceholderText: string = 'Select a city';
   mySelectValue: Array<string>; // Array of strings for multi select, string for single select.
@@ -34,10 +35,9 @@ export class CitiesComponent implements OnInit {
       });
     });*/
 
-    this.date = localStorage.getItem('lastDate');
-    this.cities = this.fetchDataService.cities.getValue();
+    this.date = this.fetchDataService.getDataFromLocalStorage('lastDate');
     this.getDate();
-    this.getCities();
+    this.getCitiesArray();
     this.lists = this.citiesListService.citiesList;
     
     this.lists.map((val: any) => {
@@ -60,9 +60,9 @@ export class CitiesComponent implements OnInit {
     });
   }
   
-  getCities() {
-    this.fetchDataService.getCities().subscribe(cities => {
-      this.cities = cities;
+  getCitiesArray() {
+    this.fetchDataService.getCitiesArray().subscribe(cities => {
+      this.citiesArray = cities;
     });
 
   }
@@ -71,8 +71,9 @@ export class CitiesComponent implements OnInit {
     this.fetchDataService.deleteItem(id);
   }
 
-  refreshAllbyButton() {
-    this.fetchDataService.getNewDataFromServer(); 
+  //this method is used in city.component.html
+  updateAllbyButtonClick() {
+    this.fetchDataService.updateDataByTimer(); 
   }
 
 }
