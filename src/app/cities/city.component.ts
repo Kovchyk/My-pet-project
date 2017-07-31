@@ -53,8 +53,8 @@ export class CityComponent implements OnInit {
   addCity() {
     
     if (this.mySelectValue) {
-      this.fetchDataService.addCity(+this.mySelectValue);
       this.router.navigate(['/add', this.mySelectValue]);
+      this.fetchDataService.addCity(+this.mySelectValue);
     }
 
   }
@@ -76,8 +76,8 @@ export class CityComponent implements OnInit {
   }
 
   //this method is used in city.component.html
-  updateAllbyButtonClick() {
-    this.fetchDataService.updateDataByTimer(); 
+  updateDataAndStartTimer() {
+    this.fetchDataService.updateDataAndStartTimer(); 
   }
 
 }

@@ -21,7 +21,7 @@ export class FetchDataService {
     private subscription: Subscription;
 
     constructor(private http: Http, private localStorageService: LocalStorageService, private cityDetailsService: CityDetailsService) {
-        this.updateDataByTimer();
+        this.updateDataAndStartTimer();
     }
     
     getCurrentWeatherByCityId(id: number): Observable<any> {
@@ -39,6 +39,7 @@ export class FetchDataService {
             }
 
             if (!citiesArray.some((val: any) => { return val.id == id;} )) {
+                this.updateDataAndStartTimer();
                 this.getCurrentWeatherByCityId(id).subscribe(data => {
                     let weather = new Weather(data.id, data.dt, data.name, data.weather[0].main, data.weather[0].icon, data.weather[0].description, data.main.temp);
                     citiesArray.unshift(weather);
@@ -76,7 +77,7 @@ export class FetchDataService {
 
     }
 
-    updateDataByTimer() {
+    updateDataAndStartTimer() {
         
         let timer = Observable.timer(0, 600000);
         // if timer has already run than stop it before running it again

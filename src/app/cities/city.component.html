@@ -11,7 +11,7 @@
         </div>
         <div class="city-update" [hidden]="citiesArray == null || !citiesArray.length">
             <h2 class="city-update__date">{{date | date:'shortTime'}}</h2>
-            <button class="button city-update__refresh" (click)="updateAllbyButtonClick()">Refresh</button>
+            <button class="button city-update__refresh" (click)="updateDataAndStartTimer()">Refresh</button>
         </div>
         <div class="clear"></div>
     </div>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FetchDataService } from '../services/fetchData.service';
 import { ActivatedRoute } from "@angular/router";
 import { CityDeteilsResolver } from "../services/city-details-resolver";
 import { Router } from '@angular/router';
