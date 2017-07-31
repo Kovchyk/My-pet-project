@@ -13,8 +13,16 @@ export class CityDetailsService {
 
     constructor(private http: Http) { }
 
-    getFiveDayForecast(id: number) {
+    getFiveDayForecastByCityId(id: number) {
        return this.http.get('http://api.openweathermap.org/data/2.5/forecast/daily?id=' + id + '&cnt=5&units=metric&APPID=' + this.apiKey).map(res => res.json());
+    }
+
+     getDataFromLocalStorage(storageName: string) {
+        return JSON.parse(localStorage.getItem(storageName));
+    }
+    
+    saveDataToLocalStorage(storageName, value) {
+        localStorage.setItem(storageName, JSON.stringify(value));
     }
     
 }

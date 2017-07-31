@@ -7,7 +7,7 @@
                 [(ngModel)]="mySelectValue"
                 [placeholder]="myPlaceholderText">
             </ng-select>
-            <button type="button" class="button select-city__add-city" (click)="goToDetails()">Add city</button>
+            <button type="button" class="button select-city__add-city" (click)="addCity()">Add city</button>
         </div>
         <div class="city-update" [hidden]="citiesArray == null || !citiesArray.length">
             <h2 class="city-update__date">{{date | date:'shortTime'}}</h2>
@@ -21,21 +21,21 @@
             <span class="city-info__delete" (click)="deleteItem(city.id)">Delete</span>
             <a class="city-info__to-weater-detais-link" routerLink="city/{{city.id}}">
                 <div class="city-info__city-details">
-                    <span class="city-info__current-date">{{city.dt| datePipe}}</span>
+                    <span class="city-info__current-date">{{city.date| datePipe}}</span>
                     <h2 class="city-info__city-name">{{city.name}}</h2>
                     <div class="city-info__weather">
                         <div class="city-info__icon">
-                            <img src="http://openweathermap.org/img/w/{{city.weather[0].icon}}.png" alt="{{city.weather[0].main}}" width="50" height="50"/>
+                            <img src="http://openweathermap.org/img/w/{{city.icon}}.png" alt="{{city.main}}" width="50" height="50"/>
                         </div>
                         <div class="city-info__temperature">
-                            <span class="city-info__sign" *ngIf="city.main.temp > 0">+{{city.main.temp | roundNum}}</span>
-                            <span class="city-info__sign" *ngIf="city.main.temp < 0">-{{city.main.temp | roundNum}}</span>
-                            <span class="city-info__sign" *ngIf="city.main.temp == 0">{{city.main.temp | roundNum}}</span>
+                            <span class="city-info__sign" *ngIf="city.temperature > 0">+{{city.temperature | roundNum}}</span>
+                            <span class="city-info__sign" *ngIf="city.temperature < 0">-{{city.temperature | roundNum}}</span>
+                            <span class="city-info__sign" *ngIf="city.temperature == 0">{{city.temperature | roundNum}}</span>
                         </div>
                     </div>
                     <div class="city-info__condition">
-                        <span class="city-info__condition-main">{{city.weather[0].main}}</span>
-                        <span class="city-info__description">{{city.weather[0].description | firstCapitalLetter}}</span>
+                        <span class="city-info__condition-main">{{city.main}}</span>
+                        <span class="city-info__description">{{city.description | firstCapitalLetter}}</span>
                     </div>
                 </div>
             </a>

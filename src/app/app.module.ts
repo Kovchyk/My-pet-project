@@ -18,11 +18,12 @@ import { CityDeteilsResolver } from "./services/city-details-resolver";
 import { CityListResolver } from "./services/city-list-resolver";
 
 import { FetchDataService } from './services/fetchData.service';
+import { CityDetailsService } from "./services/city-details.service";
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, routing, FormsModule, SelectModule ],
   declarations: [ AppComponent, CityComponent, CityDetailsComponent, FirstCapitalLetterPipe, RoundNumPipe, DatePipe ],
   bootstrap:    [ AppComponent ],
-  providers:    [ FetchDataService, CityDeteilsResolver, CityListResolver ]
+  providers:    [ FetchDataService, CityDeteilsResolver, CityListResolver, CityDetailsService ]
 })
 export class AppModule { }

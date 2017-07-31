@@ -25,7 +25,10 @@ export class CityComponent implements OnInit {
   myPlaceholderText: string = 'Select a city';
   mySelectValue: Array<string>; // Array of strings for multi select, string for single select.
 
-  constructor(private fetchDataService: FetchDataService, private activatedRoute: ActivatedRoute, private router: Router, private citiesListService: CitiesListService) { }
+  constructor(private fetchDataService: FetchDataService, 
+              private activatedRoute: ActivatedRoute, 
+              private router: Router, 
+              private citiesListService: CitiesListService) { }
 
   ngOnInit() { /*
     this.activatedRoute.data.subscribe(data => {
@@ -46,9 +49,10 @@ export class CityComponent implements OnInit {
     
   }
 
-  goToDetails() {
+  addCity() {
     
     if (this.mySelectValue) {
+      this.fetchDataService.addCity(+this.mySelectValue);
       this.router.navigate(['/add', this.mySelectValue]);
     }
 
@@ -61,10 +65,9 @@ export class CityComponent implements OnInit {
   }
   
   getCitiesArray() {
-    this.fetchDataService.getCitiesArray().subscribe(cities => {
-      this.citiesArray = cities;
+    this.fetchDataService.getCitiesArray().subscribe(weatherArray => {
+      this.citiesArray = weatherArray;
     });
-
   }
   
   deleteItem(id:number) {
