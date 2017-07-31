@@ -8,6 +8,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { Weather } from "../weather";
+import { LocalStorageService } from "./local-storage.service";
+import { CityDetailsService } from "./city-details.service";
 
 @Injectable()
 
@@ -18,7 +20,7 @@ export class FetchDataService {
     private apiKey: string = 'e4a01aeef0993c451f22d98569c8e243';
     private subscription: Subscription;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private localStorageService: LocalStorageService, private cityDetailsService: CityDetailsService) {
         this.updateDataByTimer();
     }
     
@@ -26,19 +28,11 @@ export class FetchDataService {
          return this.http.get('http://api.openweathermap.org/data/2.5/weather?id=' + id + '&units=metric&APPID=' + this.apiKey)
                              .map(res => res.json());
     }
-    
-    getDataFromLocalStorage(storageName: string) {
-        return JSON.parse(localStorage.getItem(storageName));
-    }
-    
-    saveDataToLocalStorage(storageName, value) {
-        localStorage.setItem(storageName, JSON.stringify(value));
-    }
-    
+
     addCity(id: number) {
         if (id) {
             
-            let citiesArray: Weather[] = this.getDataFromLocalStorage('storedCities');
+            let citiesArray: Weather[] = this.localStorageService.getDataFromLocalStorage('storedCities');
             // if localStorage is empty declare an array
             if (citiesArray === null) {
                 citiesArray = [];
@@ -48,8 +42,8 @@ export class FetchDataService {
                 this.getCurrentWeatherByCityId(id).subscribe(data => {
                     let weather = new Weather(data.id, data.dt, data.name, data.weather[0].main, data.weather[0].icon, data.weather[0].description, data.main.temp);
                     citiesArray.unshift(weather);
-                    this.saveDataToLocalStorage('storedCities', citiesArray);
-                    this.citiesBehaviorSubject.next(this.getDataFromLocalStorage('storedCities'));
+                    this.localStorageService.saveDataToLocalStorage('storedCities', citiesArray);
+                    this.citiesBehaviorSubject.next(this.localStorageService.getDataFromLocalStorage('storedCities'));
                 });
             }
         }
@@ -64,7 +58,7 @@ export class FetchDataService {
     }
 
     deleteItem(id:number) {
-        let citiesArray = this.getDataFromLocalStorage('storedCities');
+        let citiesArray = this.localStorageService.getDataFromLocalStorage('storedCities');
         // if localStorage is empty declare an array
         if (citiesArray === null) {
             citiesArray = [];
@@ -73,8 +67,8 @@ export class FetchDataService {
         citiesArray.forEach((element: any, index: number) => {
             if (element.id == id) {
                 citiesArray.splice(index, 1);
-                this.saveDataToLocalStorage('storedCities', citiesArray);
-                this.citiesBehaviorSubject.next(this.getDataFromLocalStorage('storedCities'));
+                this.localStorageService.saveDataToLocalStorage('storedCities', citiesArray);
+                this.citiesBehaviorSubject.next(this.localStorageService.getDataFromLocalStorage('storedCities'));
                 //delete detail info from Local Storage
                 localStorage.removeItem(id + '');
             } 
@@ -98,7 +92,7 @@ export class FetchDataService {
     }
 
     updateAllData() {
-        let citiesArray: Weather[] = this.getDataFromLocalStorage('storedCities');
+        let citiesArray: Weather[] = this.localStorageService.getDataFromLocalStorage('storedCities');
         // if localStorage is empty declare an array
         if (citiesArray === null) {
             citiesArray = [];
@@ -123,29 +117,25 @@ export class FetchDataService {
                     let weather = new Weather(data.id, data.dt, data.name, data.weather[0].main, data.weather[0].icon, data.weather[0].description, data.main.temp);
                     citiesArray.push(weather);
                 });
-                this.saveDataToLocalStorage('storedCities', citiesArray);
-                this.citiesBehaviorSubject.next(this.getDataFromLocalStorage('storedCities'));
+                this.localStorageService.saveDataToLocalStorage('storedCities', citiesArray);
+                this.citiesBehaviorSubject.next(this.localStorageService.getDataFromLocalStorage('storedCities'));
             });
         }
     }
 
-    getFiveDayForecastByCityId(id: number) {
-       return this.http.get('http://api.openweathermap.org/data/2.5/forecast/daily?id=' + id + '&cnt=5&units=metric&APPID=' + this.apiKey).map(res => res.json());
-    }
-
     updateCityDetails(id: number) {
 
-        let cityDetails = this.getFiveDayForecastByCityId(id);
+        let cityDetails = this.cityDetailsService.getFiveDayForecastByCityId(id);
         cityDetails.subscribe(weatherDetails => {
-            this.saveDataToLocalStorage(weatherDetails.city.id, weatherDetails);
+            this.localStorageService.saveDataToLocalStorage(weatherDetails.city.id, weatherDetails);
         });
 
     }
 
     updateLastRefreshingDate() {
         let date = new Date().getTime();
-        this.saveDataToLocalStorage('lastDate', date);
-        let updatedDate = this.getDataFromLocalStorage('lastDate');
+        this.localStorageService.saveDataToLocalStorage('lastDate', date);
+        let updatedDate = this.localStorageService.getDataFromLocalStorage('lastDate');
         this.date.next(updatedDate);
     }
 

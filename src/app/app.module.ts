@@ -17,13 +17,14 @@ import { DatePipe } from "./pipes/date.pipe";
 import { CityDeteilsResolver } from "./services/city-details-resolver";
 import { CityListResolver } from "./services/city-list-resolver";
 
-import { FetchDataService } from './services/fetchData.service';
+import { FetchDataService } from './services/fetch-data.service';
 import { CityDetailsService } from "./services/city-details.service";
+import { LocalStorageService } from "./services/local-storage.service";
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, routing, FormsModule, SelectModule ],
   declarations: [ AppComponent, CityComponent, CityDetailsComponent, FirstCapitalLetterPipe, RoundNumPipe, DatePipe ],
   bootstrap:    [ AppComponent ],
-  providers:    [ FetchDataService, CityDeteilsResolver, CityListResolver, CityDetailsService ]
+  providers:    [ FetchDataService, CityDeteilsResolver, CityListResolver, CityDetailsService, LocalStorageService ]
 })
 export class AppModule { }

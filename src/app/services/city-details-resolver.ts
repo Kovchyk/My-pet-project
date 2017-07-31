@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { FetchDataService } from "./fetchData.service";
 import { CityDetailsService } from "./city-details.service";
 
 @Injectable()

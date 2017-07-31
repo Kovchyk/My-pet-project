@@ -3,7 +3,7 @@ import { FetchDataService } from '../services/fetchData.service';
 import { ActivatedRoute } from "@angular/router";
 import { CityDeteilsResolver } from "../services/city-details-resolver";
 import { Router } from '@angular/router';
-import { CityDetailsService } from "../services/city-details.service";
+import { LocalStorageService } from "../services/local-storage.service";
 
 @Component({
   moduleId: module.id,
@@ -20,19 +20,19 @@ export class CityDetailsComponent implements OnInit{
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-              private cityDetailsService: CityDetailsService) { }
+              private localStorageService: LocalStorageService) { }
 
     ngOnInit() {
       this.activatedRoute.data.subscribe(data => {
           this.cityDetails = data['cityDetails'];
           this.id = this.cityDetails.city.id;
-          let storedCityInfo = this.cityDetailsService.getDataFromLocalStorage(this.id + '');
+          let storedCityInfo = this.localStorageService.getDataFromLocalStorage(this.id + '');
 
           if (storedCityInfo) {
             this.days = storedCityInfo.list;
             this.cityName = storedCityInfo.city.name;
           } else {
-            this.cityDetailsService.saveDataToLocalStorage(this.id + '', this.cityDetails);
+            this.localStorageService.saveDataToLocalStorage(this.id + '', this.cityDetails);
             this.days = this.cityDetails.list;
             this.cityName = this.cityDetails.city.name;
           }

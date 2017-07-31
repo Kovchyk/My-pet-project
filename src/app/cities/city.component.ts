@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from "@angular/router";
 //import { CityListResolver } from "../services/city-list-resolver";
 
-import { FetchDataService } from '../services/fetchData.service';
+import { FetchDataService } from '../services/fetch-data.service';
 import { CitiesListService } from "../services/cities-list.service";
+import { LocalStorageService } from "../services/local-storage.service";
 
 @Component({
   moduleId: module.id,
@@ -28,7 +29,8 @@ export class CityComponent implements OnInit {
   constructor(private fetchDataService: FetchDataService, 
               private activatedRoute: ActivatedRoute, 
               private router: Router, 
-              private citiesListService: CitiesListService) { }
+              private citiesListService: CitiesListService,
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit() { /*
     this.activatedRoute.data.subscribe(data => {
@@ -37,8 +39,7 @@ export class CityComponent implements OnInit {
         this.options.push({value: val.id, label: val.name})
       });
     });*/
-
-    this.date = this.fetchDataService.getDataFromLocalStorage('lastDate');
+    this.date = this.localStorageService.getDataFromLocalStorage('lastDate');
     this.getDate();
     this.getCitiesArray();
     this.lists = this.citiesListService.citiesList;
